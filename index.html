@@ -94,6 +94,11 @@ footer{text-align:center;color:var(--soft);font-size:14px;padding:24px}
 .moment{margin:0;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;max-width:900px}
 .moment img{display:block;width:100%;height:auto}
 .moment figcaption{padding:12px 18px;color:var(--soft)}
+.mhead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:16px}.mhead h2{margin:0}
+.mnav{display:flex;gap:8px}.mnav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font:24px/1 Heebo,sans-serif;cursor:pointer}
+.mnav button:focus-visible,.strip:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin}
+.strip .moment{flex:0 0 min(86%,760px);scroll-snap-align:start;min-width:0}
 </style>
 </head>
 <body>
@@ -168,9 +173,14 @@ footer{text-align:center;color:var(--soft);font-size:14px;padding:24px}
 
 <section class="band moments">
  <div class="wrap">
-  <h2>רגעים מהמפל</h2>
-  <figure class="moment"><img src="group.jpg" alt="סלפי של האחיות במפל הנסתר" width="1206" height="896" loading="lazy">
-   <figcaption>שלושתנו במפל הנסתר – והמים בדיוק בטמפרטורה הנכונה</figcaption></figure>
+  <div class="mhead"><h2>רגעים מהיום</h2>
+   <div class="mnav"><button type="button" id="mprev" aria-label="התמונה הקודמת">›</button><button type="button" id="mnext" aria-label="התמונה הבאה">‹</button></div></div>
+  <div class="strip" id="strip" tabindex="0" aria-label="גלריית תמונות">
+   <figure class="moment"><img src="group.jpg" alt="סלפי של האחיות במפל הנסתר" width="1206" height="895" loading="lazy">
+    <figcaption>שלושתנו במפל הנסתר – והמים בדיוק בטמפרטורה הנכונה</figcaption></figure>
+   <figure class="moment"><img src="masks.jpg" alt="האחיות עם מסכות פנים ליד המפל" width="1206" height="900" loading="lazy">
+    <figcaption>ספא בטבע: מסכות פנים, צחוקים ונשיקה למצלמה</figcaption></figure>
+  </div>
  </div>
 </section>
 <section class="band mood">
@@ -250,6 +260,9 @@ $('f').addEventListener('submit',e=>{
 });
 render();renderIdeas();refresh();setInterval(()=>{if(!document.hidden&&!busy)refresh();},15000);
 }
+{const st=document.getElementById('strip');const go=d=>{const it=st.querySelector('.moment');if(!it)return;st.scrollBy({left:d*(it.offsetWidth+16)*(getComputedStyle(st).direction==='rtl'?-1:1),behavior:'smooth'})};
+document.getElementById('mnext').addEventListener('click',()=>go(1));document.getElementById('mprev').addEventListener('click',()=>go(-1));
+st.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();go(1)}if(e.key==='ArrowRight'){e.preventDefault();go(-1)}});}
 </script>
 </body>
 </html>
